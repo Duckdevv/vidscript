@@ -5,9 +5,9 @@
 VidScript is a code-driven motion graphics and video editing language. Instead of using a traditional visual timeline, everything is powered by precise scripts.
 
 1. You create a project using the `Create()` function.
-2. Every asset you use is assigned to a variable (e.g., `$my_asset = load("path/to/asset")`).
-3. The `main{}` function acts as your timeline, where you define every keyframe and movement.
-4. Every line inside the `main{}` function must target a variable starting with `$`.
+2. Every asset you use is assigned to a variable (e.g., `my_asset = load("path/to/asset")`).
+3. The `main()` function acts as your timeline, where you define every keyframe and movement.
+4. Every line inside the `main()` function must target a variable starting with `$`.
 5. Every line of code must end with `!`.
 
 ## setup & config
@@ -21,8 +21,8 @@ VidScript is a code-driven motion graphics and video editing language. Instead o
 4. fps are the vidieo frame per second .
     * like :
         ``` 
-         Create("My Project",1:00:00,(1920,1080),30)!
-Markdown
+         Create("My Project",1:00.00,(1920,1080),30)!
+         ```
 # VidScript Specification
 
 ## Introduction
@@ -30,9 +30,9 @@ Markdown
 VidScript is a code-driven motion graphics and video editing language. Instead of using a traditional visual timeline, everything is controlled through precise, simple scripts.
 
 1. You create a project using the `Create()` function.
-2. Every asset you use is assigned to a variable starting with `$` (e.g., `$my_asset = load("path/to/asset")`).
-3. The `main{}` function acts as your timeline, where you write every action and keyframe.
-4. Every line inside the `main{}` function must target an asset variable starting with `$`.
+2. Every asset you use is assigned to a variable starting with `$` (e.g., `my_asset = load("path/to/asset")`).
+3. The `main()` function acts as your timeline, where you write every action and keyframe.
+4. Every line inside the `main()` function must target an asset variable starting with `$`.
 5. Every statement must end with `!`. Anything after `!` on the same line is treated as a comment.
 
 ---
@@ -42,8 +42,8 @@ VidScript is a code-driven motion graphics and video editing language. Instead o
 * **Statement Terminator:** Every command or variable assignment must end with an exclamation mark `!`.
 * **Comments:** Any text following `!` on the same line is ignored by the parser.
 * **Asset Variables:** Variables referencing visual, audio, or text assets must start with the `$` sign (e.g., `$logo`, `$bg_video`).
-* **Global Scope:** Asset definitions, shaders, and global setup occur outside the `main{}` function.
-* **Timeline Scope:** All timeline movements, property changes, and keyframe definitions must be written inside the `main{}` block.
+* **Global Scope:** Asset definitions, shaders, and global setup occur outside the `main()` function.
+* **Timeline Scope:** All timeline movements, property changes, and keyframe definitions must be written inside the `main()` block.
 
 ---
 
@@ -53,18 +53,18 @@ To start a new project, every VidScript file must begin with the `Create()` func
 
 ### Syntax:
 ```
-Create(name, duration, resolution)!
+Create(name, duration, resolution,fps)!
 ```
 ### Parameters:
 name (String): The title of your project or output file (e.g., "My Project").
 
-duration (Timestamp): The total duration of the video formatted as mm:ss (e.g., 01:00:00 for 1 minute).
+duration (Timestamp): The total duration of the video formatted as mm:ss (e.g., 01:00.00 for 1 minute).
 
 resolution (Resolution): The canvas dimensions written as WIDTHxHEIGHT in pixels (e.g., 1920x1080 or 1080x1920).
 
 ### Example:
 ```
-Create("My Project", 01:00:00, 1920x1080)!
+Create("My Project", 01:00.00, 1920x1080,30)!
 ```
 
 ---
@@ -75,7 +75,7 @@ In VidScript, handling variables follows a strict and simple convention to separ
 
 ### Rules:
 1. **Declaration (Creating a Variable):** Write the variable name directly without any symbols (e.g., `my_var = ...`).
-2. **Referencing (Using an Existing Variable):** Whenever you want to recall, target, or pass an existing variable (inside `main{}` or within functions), you **must** prefix its name with `$` (e.g., `$my_var`).
+2. **Referencing (Using an Existing Variable):** Whenever you want to recall, target, or pass an existing variable (inside `main()` or within functions), you **must** prefix its name with `$` (e.g., `$my_var`).
 
 ---
 
@@ -90,7 +90,7 @@ my_video = load("assets/clip.mp4")!
 ```
 main() {
     $my_image {
-        (00:00, opacity, 1)
+        (00:00.00, opacity, 1)
     }!
 }
 ```
@@ -114,36 +114,36 @@ start_time: The beginning time of the segment. Can be a timestamp (mm:ss) or the
 
 end_time: The ending time of the segment. Can be:
 
-A timestamp (e.g., 01:30).
+A timestamp (e.g., 01:30.00).
 
 The keyword end (to the very end of the video).
 
-A relative duration using + followed by pure numbers representing seconds (e.g., +15 for 15 seconds, or +00:15 as timestamp duration).
+A relative duration using + followed by pure numbers representing seconds (e.g., +15 for 15 seconds, or +00:15.00 as timestamp duration).
 
 ### Examples:
-1. Standard Cut ( Cut from minute 01:00 to 01:30)
+1. Standard Cut ( Cut from minute 01:00.00 to 01:30.00)
 ```
 raw_video = load("assets/interview.mp4")!
-part_1 = take($raw_video, 01:00, 01:30)!
+part_1 = take($raw_video, 01:00.00, 01:30.00)!
 ```
 2. Using Keywords (start & end)
 ```
 raw_video = load("assets/interview.mp4")!
-intro = take($raw_video, start, 00:45)!
-outro = take($raw_video, 02:00, end)!
+intro = take($raw_video, start, 00:45.00)!
+outro = take($raw_video, 02:00.00, end)!
 ```
 3. Using Relative Duration (+ Pure Numbers)
-Start at 01:00 and cut for a duration of 15 seconds (+15)
+Start at 01:00.00 and cut for a duration of 15 seconds (+15)
 ```
 raw_video = load("assets/interview.mp4")!
-short_clip = take($raw_video, 01:00, +15)!
+short_clip = take($raw_video, 01:00.00, +15)!
 ```
 
 ---
 
 ## Text Generation (`@text` Generator)
 
-The `@text` generator creates a text object as a visual node and assigns it to a variable. This node can later be animated and transformed inside the `main{}` function.
+The `@text` generator creates a text object as a visual node and assigns it to a variable. This node can later be animated and transformed inside the `main()` function.
 
 ### Syntax:
 ```
@@ -300,7 +300,7 @@ box_mask = @mask("rect", 800x400)!
 * Load and slice a video
 ```
 my_video = load("assets/background.mp4")!
-video_clip = take($my_video, 00:00, 00:10)!
+video_clip = take($my_video, 00:00.00, 00:10.00)!
 ```
 * Apply the mask using $ for both existing variables
 ```
@@ -392,7 +392,7 @@ An instant action changes a property value immediately at a single specific time
 (timestamp, property_name, value)
 ```
 ### Parameters:
-timestamp: The exact point in time when the change occurs, formatted as mm:ss (e.g., 00:02:00).
+timestamp: The exact point in time when the change occurs, formatted as mm:ss (e.g., 00:02.00).
 
 property_name: The target attribute to modify (e.g., opacity, position, scale).
 
@@ -514,8 +514,8 @@ main() {
         (00:00.00, layer, 2);
         (00:00.00, opacity, 1.0);
         (00:00.00, position, center x 300);
-        (00:01:00, rotation, 45);
-        (00:01:00, scale, 2.0 x 1.0)
+        (00:01.00, rotation, 45);
+        (00:01.00, scale, 2.0 x 1.0)
     }!
 }
 ```
@@ -682,7 +682,7 @@ main() {
         (00:00.00, position, center x center);
         (00:00.00, opacity, 1.0);
         (00:03.00, invert, true);
-        (00:03.00/00:05.00, size, 1.0/2.5)
+        (00:03.00/00:05.00, size, 1.0|2.5)
     }!
 }
 ```
@@ -745,7 +745,7 @@ main() {
         (00:00.00, position, center x center);
         (00:00.00, color, #FFFFFF);
         (00:02.00, content, "hello world");
-        (00:02.00/00:04.00, color, #FFFFFF/#FFD700)
+        (00:02.00/00:04.00, color, #FFFFFF|#FFD700)
     }!
 }
 ```
@@ -796,8 +796,8 @@ main() {
     $box {
         (00:00.00, position, center x center);
         (00:00.00, layer, 1);
-        (00:01.00/00:03.00, color, #181825/#FF5500);
-        (00:01.00/00:03.00, border_radius, 12/50)
+        (00:01.00/00:03.00, color, #181825|#FF5500);
+        (00:01.00/00:03.00, border_radius, 12|50)
     }!
 }
 ```
@@ -843,7 +843,7 @@ main() {
     $main_cam {
         (00:00.00, position, center x center);
         (00:00.00, opacity, 1.0);
-        (00:01.00/00:04.00, zoom, 1.0/1.5);
+        (00:01.00/00:04.00, zoom, 1.0|1.5);
         (00:05.00, rotation, 90)
     }!
 }
@@ -903,9 +903,9 @@ main() {
 }
 
 func pop_and_fade() {
-    (00:00.00/00:01.00, opacity, 0.0/1.0);
-    (00:01.00/00:02.00, size, 1.0/1.3);
-    (00:02.00/00:03.00, opacity, 1.0/0.0)
+    (00:00.00/00:01.00, opacity, 0.0|1.0);
+    (00:01.00/00:02.00, size, 1.0|1.3);
+    (00:02.00/00:03.00, opacity, 1.0|0.0)
 }!
 ```
 ---
@@ -944,7 +944,7 @@ hero_video = load("assets/video.mp4")!
 
 main() {
     $title_text {
-        (00:00.00, position, center x $center_y); (00:01.00/00:03.00, color,$main_color/#FFFFFF)
+        (00:00.00, position, center x $center_y); (00:01.00/00:03.00, color,$main_color|#FFFFFF)
     }!
 
     $hero_video { (00:00.00, speed,$hero_speed)
@@ -996,12 +996,12 @@ title_text = @text(48, #FFFFFF, "assets/font.ttf", 0, #000000, "Hello World")!
 
 main() {
     $bg_image {
-        (00:00.00/00:02.00, opacity, 0.0/1.0);
+        (00:00.00/00:02.00, opacity, 0.0|1.0);
         (00:05.00, opacity, 0.0)
     }!
 
     $title_text {
         (00:00.00, opacity, 1.0);
-        (00:02.00/00:04.00, scale, 1.0/1.5)
+        (00:02.00/00:04.00, scale, 1.0|1.5)
     }!
 }
