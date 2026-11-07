@@ -27,7 +27,7 @@ public:
 
     void beginFrame(const Rgba& clear) override;
     void setMask(const MaskSpec& mask) override;
-    void drawImage(const ImageDraw& draw) override;
+    void drawImage(const VidImageDraw& draw) override;
     void drawShape(const ShapeDraw& draw) override;
     void drawText(const TextDraw& draw) override;
     void fillScreen(const Rgba& color) override;

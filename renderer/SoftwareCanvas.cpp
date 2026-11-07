@@ -115,7 +115,7 @@ void SoftwareCanvas::blend(int x, int y, double r, double g, double b, double al
     px[3] = static_cast<std::uint8_t>(std::lround(outA * 255.0));
 }
 
-void SoftwareCanvas::drawImage(const ImageDraw& draw) {
+void SoftwareCanvas::drawImage(const VidImageDraw& draw) {
     if (draw.handle < 0 || draw.handle >= static_cast<int>(images_.size())) return;
     const Bitmap& bitmap = images_[static_cast<std::size_t>(draw.handle)];
     if (draw.size.x <= 0.0 || draw.size.y <= 0.0) return;

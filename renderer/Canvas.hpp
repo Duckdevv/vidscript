@@ -27,7 +27,7 @@ struct MaskSpec {
     double strength = 1.0;
 };
 
-struct ImageDraw {
+struct VidImageDraw {
     int handle = -1;
     Pt center;
     Pt size;
@@ -74,7 +74,7 @@ public:
 
     virtual void beginFrame(const Rgba& clear) = 0;
     virtual void setMask(const MaskSpec& mask) = 0;
-    virtual void drawImage(const ImageDraw& draw) = 0;
+    virtual void drawImage(const VidImageDraw& draw) = 0;
     virtual void drawShape(const ShapeDraw& draw) = 0;
     virtual void drawText(const TextDraw& draw) = 0;
     virtual void fillScreen(const Rgba& color) = 0;

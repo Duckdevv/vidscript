@@ -179,7 +179,7 @@ void Renderer::drawImageAsset(const AssetState& asset, const View& view, double 
     if (it == images_.end()) return;
     const Vec2 scale = asset.finalScale();
 
-    ImageDraw draw;
+    VidImageDraw draw;
     draw.handle = it->second.handle;
     draw.center = project(view, asset.position.x, asset.position.y);
     draw.size = Pt{it->second.width * scale.x * view.zoom, it->second.height * scale.y * view.zoom};
@@ -203,7 +203,7 @@ void Renderer::drawVideoAsset(const AssetState& asset, const View& view, double 
     }
 
     const Vec2 scale = asset.finalScale();
-    ImageDraw draw;
+    VidImageDraw draw;
     draw.handle = video.handle;
     draw.center = project(view, asset.position.x, asset.position.y);
     draw.size = Pt{video.width * scale.x * view.zoom, video.height * scale.y * view.zoom};

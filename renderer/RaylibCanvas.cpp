@@ -299,7 +299,7 @@ void RaylibCanvas::setMask(const MaskSpec& mask) {
     impl_->mask = mask;
 }
 
-void RaylibCanvas::drawImage(const ImageDraw& draw) {
+void RaylibCanvas::drawImage(const VidImageDraw& draw) {
     if (draw.handle < 0 || draw.handle >= static_cast<int>(impl_->textures.size())) return;
     if (draw.size.x <= 0.0 || draw.size.y <= 0.0) return;
     const Texture2D texture = impl_->textures[static_cast<std::size_t>(draw.handle)];
