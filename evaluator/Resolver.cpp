@@ -225,7 +225,7 @@ private:
         const std::size_t dot = path.find_last_of('.');
         if (dot == std::string::npos) fail("cannot determine the asset type of '" + path + "'");
         const std::string ext = lower(path.substr(dot + 1));
-        static const std::set<std::string> images = {"png", "jpg", "jpeg", "bmp", "gif", "webp", "tga", "svg"};
+        static const std::set<std::string> images = {"png", "jpg", "jpeg", "bmp", "gif", "webp", "tga"};
         static const std::set<std::string> videos = {"mp4", "mov", "mkv", "webm", "avi", "m4v"};
         static const std::set<std::string> audios = {"mp3", "wav", "ogg", "flac", "m4a", "aac", "opus"};
         if (images.count(ext)) return AssetType::Image;
@@ -524,6 +524,7 @@ private:
             PropState& state = stateIt->second;
 
             if (state.have_prev && startCs < state.prev_start_cs) fail("actions are not in chronological order");
+            if (state.have_prev && startCs == state.prev_start_cs) fail("two actions change this property at the same time");
             if (state.have_prev && startCs < state.prev_end_cs) fail("overlapping actions at " + formatCs(startCs));
 
             const PropValue toValue = convert(to, track.type);
